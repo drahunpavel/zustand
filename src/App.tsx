@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import "./App.css";
+import "./index.css";
 import useStore from "./store";
 
-useStore.getState();
+// ассинхронный вызов получения списка
+useStore.getState().actions.fetchTodos();
 
 function App() {
   useEffect(() => {
