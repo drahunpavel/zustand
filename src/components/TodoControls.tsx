@@ -1,16 +1,8 @@
 import React from "react";
-import { shallow } from "zustand/shallow";
-import useStore from "../store";
+import { useTodosStore } from "../store/hooks";
 
 const TodoControls = () => {
-  const { todos, completeActiveTodos, removeCompletedTodos } = useStore(
-    ({ todos, actions }) => ({
-      todos,
-      completeActiveTodos: actions.completeActiveTodos,
-      removeCompletedTodos: actions.removeCompletedTodos,
-    }),
-    shallow
-  );
+  const { todos, completeActiveTodos, removeCompletedTodos } = useTodosStore();
 
   if (!todos.length) return null;
 
