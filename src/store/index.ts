@@ -1,9 +1,9 @@
 import { devtools } from "zustand/middleware";
-import { create } from "zustand";
 import { TodosStoreState, useStoreTodos } from "./todos";
 import { StoreExample, useStoreExample } from "./example";
+import { createWithEqualityFn } from "zustand/traditional";
 
-const useStore = create<TodosStoreState & StoreExample>()(
+const useStore = createWithEqualityFn<TodosStoreState & StoreExample>()(
   devtools(
     (set, get, store) => ({
       ...useStoreTodos(set, get, store),
