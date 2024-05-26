@@ -43,7 +43,7 @@ const TodoForm = () => {
           }
         />
         <button className="btn-add" disabled={isDisabled}>
-          Add
+          Add todo
         </button>
       </div>
     </form>

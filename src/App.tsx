@@ -13,14 +13,8 @@ import {
 useStore.getState().actions.fetchTodos();
 
 function App() {
-  useEffect(() => {
-    console.log("first render");
-  }, []);
-
-  console.log(" render");
-
   return (
-    <>
+    <div className="container">
       <header>
         <h1>Zustand Todos App</h1>
       </header>
@@ -32,8 +26,7 @@ function App() {
           <TodoList />
         </Boundary>
       </main>
-      <footer>2</footer>
-    </>
+    </div>
   );
 }
 
