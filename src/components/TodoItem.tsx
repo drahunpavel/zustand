@@ -6,9 +6,9 @@ import { shallow } from "zustand/shallow";
 
 const TodoItem = ({ todo }) => {
   const { updateTodo, removeTodo } = useStore(
-    (state) => ({
-      updateTodo: state.actions.updateTodo,
-      removeTodo: state.actions.removeTodo,
+    ({ actions }) => ({
+      updateTodo: actions.updateTodo,
+      removeTodo: actions.removeTodo,
     }),
     shallow
   );
