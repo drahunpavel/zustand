@@ -19,8 +19,8 @@ type TodosState = {
 type TodosActions = {
   updateInfo: () => void;
   addTodo: (newTodo: Todo) => void;
-  updateTodo: (id: string | number) => void;
-  removeTodo: (id: string | number) => void;
+  updateTodo: (id: string) => void;
+  removeTodo: (id: string) => void;
   completeActiveTodos: () => void;
   removeCompletedTodos: () => void;
   fetchTodos: () => Promise<void>;
@@ -79,14 +79,14 @@ export const useStoreTodos: StateCreator<
         }, TodosActionTypes.Add);
         get().actions.updateInfo();
       },
-      updateTodo: (id: string | number) => {
+      updateTodo: (id: string) => {
         actionSet((state: TodosState) => {
           const todo = state.todos.find((t) => t.id === id);
           if (todo) todo.done = !todo.done;
         }, TodosActionTypes.UpdateTodo);
         get().actions.updateInfo();
       },
-      removeTodo: (id: string | number) => {
+      removeTodo: (id: string) => {
         actionSet((state: TodosState) => {
           state.todos = state.todos.filter((t) => t.id !== id);
         }, TodosActionTypes.RemoveTodo);
