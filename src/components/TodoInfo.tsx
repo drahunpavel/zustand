@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import shallow from "zustand/shallow";
+import { shallow } from "zustand/shallow";
 import useStore from "../store";
 
-export const TodoInfo = () => {
+const TodoInfo = () => {
   const { todos, info, updateInfo } = useStore(
     ({ todos, info, actions }) => ({
       todos,
@@ -14,7 +14,7 @@ export const TodoInfo = () => {
 
   useEffect(() => {
     updateInfo();
-  }, [todos]);
+  }, [todos, updateInfo]);
 
   if (!info || !todos.length) return null;
 
@@ -28,3 +28,5 @@ export const TodoInfo = () => {
     </div>
   );
 };
+
+export default TodoInfo;
