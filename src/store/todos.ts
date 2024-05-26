@@ -1,5 +1,6 @@
 import { Todo } from "../types";
 import { StateCreator } from "zustand";
+import { createNamedActionSetter } from "./utils";
 
 const SERVER_URI = process.env.REACT_APP_SERVER_URI;
 
@@ -26,6 +27,20 @@ type TodosActions = {
   reset: () => void;
 };
 
+export enum TodosActionTypes {
+  UpdateInfo = "Todos: UpdateInfo",
+  UpdateTodo = "Todos: UpdateTodo",
+  Add = "Todos: Add",
+  RemoveTodo = "Todos: RemoveTodo",
+  CompleteActiveTodos = "Todos: CompleteActiveTodos",
+  RemoveCompletedTodos = "Todos: RemoveCompletedTodos",
+  Fetch = "Todos: Fetch",
+  Loading = "Todos: Loading",
+  SetTodos = "Todos: SetTodos",
+  SetError = "Todos: SetError",
+  Reset = "Todos: Reset",
+}
+
 export type TodosStoreState = TodosState & { actions: TodosActions };
 
 const initialStateTodos = {
@@ -40,71 +55,86 @@ export const useStoreTodos: StateCreator<
   [["zustand/devtools", never]],
   [],
   TodosStoreState
-> = (set, get) => ({
-  ...initialStateTodos,
-  actions: {
-    updateInfo: () => {
-      const todos = get().todos;
-      const total = todos.length;
-      const active = todos.filter((t) => !t.done).length;
-      const done = total - active;
-      const left = total > 0 ? Math.round((active / total) * 100) + "%" : "0%";
-      set({ info: { total, active, done, left } });
-    },
-    addTodo: (newTodo) => {
-      const todos = [...get().todos, newTodo];
-      set({ todos });
-      get().actions.updateInfo();
-    },
-    updateTodo: (id) => {
-      const todos = get().todos.map((t) =>
-        t.id === id ? { ...t, done: !t.done } : t
-      );
-      set({ todos });
-      get().actions.updateInfo();
-    },
-    removeTodo: (id) => {
-      const todos = get().todos.filter((t) => t.id !== id);
-      set({ todos });
-      get().actions.updateInfo();
-    },
-    completeActiveTodos: () => {
-      const todos = get().todos.map((t) => (t.done ? t : { ...t, done: true }));
-      set({ todos });
-      get().actions.updateInfo();
-    },
-    removeCompletedTodos: () => {
-      const todos = get().todos.filter((t) => !t.done);
-      set({ todos });
-      get().actions.updateInfo();
-    },
-    fetchTodos: async () => {
-      //   set({ loading: true });
-      set({ loading: true }, false, "todos/fetchTodos");
-      try {
-        const response = await fetch(SERVER_URI);
-        if (!response.ok) throw response;
-        const todos = await response.json();
-        set({ todos });
-        get().actions.updateInfo();
-      } catch (e) {
-        let error = e;
-        if (e.status === 400) {
-          error = await e.json();
-        }
-        set({ error });
-      } finally {
-        set({ loading: false });
-      }
-    },
-    reset: () => {
-      set(initialStateTodos);
-    },
-  },
-});
+> = (set, get) => {
+  const actionSet = createNamedActionSetter(set);
 
-// const createNamedSet = (set: any) => {
-//   return (state: Partial<TodosStoreState>, actionName: string) => {
-//     set(state, false, actionName);
-//   };
-// };
+  return {
+    ...initialStateTodos,
+    actions: {
+      updateInfo: () => {
+        actionSet((state: TodosState) => {
+          const todos = get().todos;
+          state.info.total = todos.length;
+          state.info.active = todos.filter((t) => !t.done).length;
+          state.info.done = state.info.total - state.info.active;
+          state.info.left =
+            state.info.total > 0
+              ? Math.round((state.info.active / state.info.total) * 100) + "%"
+              : "0%";
+        }, TodosActionTypes.UpdateInfo);
+      },
+      addTodo: (newTodo: Todo) => {
+        actionSet((state: TodosState) => {
+          state.todos.push(newTodo);
+        }, TodosActionTypes.Add);
+        get().actions.updateInfo();
+      },
+      updateTodo: (id: string | number) => {
+        actionSet((state: TodosState) => {
+          const todo = state.todos.find((t) => t.id === id);
+          if (todo) todo.done = !todo.done;
+        }, TodosActionTypes.UpdateTodo);
+        get().actions.updateInfo();
+      },
+      removeTodo: (id: string | number) => {
+        actionSet((state: TodosState) => {
+          state.todos = state.todos.filter((t) => t.id !== id);
+        }, TodosActionTypes.RemoveTodo);
+        get().actions.updateInfo();
+      },
+      completeActiveTodos: () => {
+        actionSet((state: TodosState) => {
+          state.todos.forEach((t) => {
+            if (!t.done) t.done = true;
+          });
+        }, TodosActionTypes.CompleteActiveTodos);
+        get().actions.updateInfo();
+      },
+      removeCompletedTodos: () => {
+        actionSet((state: TodosState) => {
+          state.todos = state.todos.filter((t) => !t.done);
+        }, TodosActionTypes.RemoveCompletedTodos);
+        get().actions.updateInfo();
+      },
+      fetchTodos: async () => {
+        actionSet((state: TodosState) => {
+          state.loading = true;
+        }, TodosActionTypes.Loading);
+        try {
+          const response = await fetch(SERVER_URI);
+          if (!response.ok) throw response;
+          const todos = await response.json();
+          actionSet((state: TodosState) => {
+            state.todos = todos;
+          }, TodosActionTypes.SetTodos);
+          get().actions.updateInfo();
+        } catch (e) {
+          let error = e;
+          if (e.status === 400) {
+            error = await e.json();
+          }
+          actionSet((state: TodosState) => {
+            state.error = error;
+          }, TodosActionTypes.SetError);
+        } finally {
+          actionSet((state: TodosState) => {
+            state.loading = false;
+          }, TodosActionTypes.Loading);
+        }
+      },
+      reset: () => {
+        set(initialStateTodos);
+      },
+    },
+  };
+};
