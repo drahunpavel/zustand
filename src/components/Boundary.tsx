@@ -11,6 +11,8 @@ const Boundary = ({ children }) => {
     shallow
   );
 
+  console.log("--render: Boundary");
+
   //   if (loading) return <Loader width={50} />;
   if (loading) return <div>loading</div>;
 

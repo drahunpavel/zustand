@@ -3,6 +3,8 @@ import { TodosStoreState, useStoreTodos } from "./todos";
 import { StoreExample, useStoreExample } from "./example";
 import { createWithEqualityFn } from "zustand/traditional";
 
+// Slices pattern
+
 const useStore = createWithEqualityFn<TodosStoreState & StoreExample>()(
   devtools(
     (set, get, store) => ({

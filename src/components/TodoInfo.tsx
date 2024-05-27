@@ -15,6 +15,8 @@ const TodoInfo = () => {
   //     updateInfo();
   //   }, [todos]);
 
+  console.log("--render: TodoInfo");
+
   if (!info || !todos.length) return null;
 
   return (

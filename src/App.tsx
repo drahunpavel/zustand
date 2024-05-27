@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./index.css";
 import useStore from "./store";
 import {
@@ -13,6 +13,8 @@ import {
 useStore.getState().actions.fetchTodos();
 
 function App() {
+  console.log("--render: App");
+
   return (
     <div className="container">
       <header>

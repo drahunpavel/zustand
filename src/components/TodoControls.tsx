@@ -2,9 +2,11 @@ import React from "react";
 import { useTodosStore } from "../store/hooks";
 
 const TodoControls = () => {
-  const { todos, completeActiveTodos, removeCompletedTodos } = useTodosStore();
+  const { completeActiveTodos, removeCompletedTodos } = useTodosStore();
 
-  if (!todos.length) return null;
+  console.log("--render: TodoControls");
+
+  // if (!todos.length) return null;
 
   return (
     <div className="todo-controls">

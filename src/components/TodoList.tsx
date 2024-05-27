@@ -25,6 +25,8 @@ const TodoList = () => {
     }
   }, [q, todos.length]);
 
+  console.log("--render: TodoList");
+
   return (
     todos.length > 0 && (
       <ul className="todo-list" ref={todoListRef}>
