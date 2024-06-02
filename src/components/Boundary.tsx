@@ -1,22 +1,17 @@
 import React from "react";
 import { shallow } from "zustand/shallow";
-import useStore from "../store";
-
-// import { Error } from './Error'
-// import { Loader } from './Loader'
+import { useStoreTodos } from "../store/useStoreTodos";
 
 const Boundary = ({ children }) => {
-  const { loading, error } = useStore(
+  const { loading, error } = useStoreTodos(
     ({ loading, error }) => ({ loading, error }),
     shallow
   );
 
   console.log("--render: Boundary");
 
-  //   if (loading) return <Loader width={50} />;
-  if (loading) return <div>loading</div>;
+  if (loading) return <div>Loading...</div>;
 
-  //   if (error) return <Error error={error} />;
   if (error) return <div>Error</div>;
 
   return <>{children}</>;

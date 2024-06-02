@@ -1,16 +1,17 @@
 import React from "react";
 import "./index.css";
-import useStore from "./store";
 import {
   Boundary,
   TodoControls,
+  TodoFilter,
   TodoForm,
   TodoInfo,
   TodoList,
 } from "./components";
+import { useStoreTodos } from "./store/useStoreTodos";
 
 // ассинхронный вызов получения списка за пределами компонента до рендеринга компонента
-useStore.getState().actions.fetchTodos();
+useStoreTodos.getState().fetchTodos();
 
 function App() {
   console.log("--render: App");
@@ -22,6 +23,8 @@ function App() {
       </header>
       <main>
         <Boundary>
+          <TodoFilter />
+          <hr />
           <TodoForm />
           <TodoInfo />
           <TodoControls />

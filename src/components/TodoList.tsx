@@ -1,29 +1,23 @@
-import React, { useLayoutEffect, useRef } from "react";
-import { gsap } from "gsap";
+import React, { useRef } from "react";
 import { TodoItem } from ".";
-import useStore from "../store";
+import { useStoreTodos } from "../store/useStoreTodos";
+import { useStoreFilter } from "../store/useStoreFilter";
 
 const TodoList = () => {
-  const todos = useStore(({ todos }) => todos);
-  const todoListRef = useRef();
-  const q = gsap.utils.selector(todoListRef);
+  const filter = useStoreFilter((state) => state.filter);
+  const todos = useStoreTodos((state) => {
+    switch (filter) {
+      case "available":
+        return state.todos.filter((todo) => !todo.done);
+      case "marked":
+        return state.todos.filter((todo) => todo.done);
 
-  useLayoutEffect(() => {
-    if (todoListRef.current) {
-      gsap.fromTo(
-        q(".todo-item"),
-        {
-          x: 100,
-          opacity: 0,
-        },
-        {
-          x: 0,
-          opacity: 1,
-          stagger: 1 / todos.length,
-        }
-      );
+      default:
+        return state.todos;
     }
-  }, [q, todos.length]);
+  });
+
+  const todoListRef = useRef();
 
   console.log("--render: TodoList");
 

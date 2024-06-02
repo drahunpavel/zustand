@@ -1,20 +1,25 @@
 import React from "react";
-import { useTodosStore } from "../store/hooks";
+import { useStoreTodos } from "../store/useStoreTodos";
+import { shallow } from "zustand/shallow";
 
 const TodoControls = () => {
-  const { completeActiveTodos, removeCompletedTodos } = useTodosStore();
+  const { completeActiveTodos, removeCompletedTodos } = useStoreTodos(
+    (state) => ({
+      completeActiveTodos: state.completeActiveTodos,
+      removeCompletedTodos: state.removeCompletedTodos,
+    }),
+    shallow
+  );
 
   console.log("--render: TodoControls");
-
-  // if (!todos.length) return null;
 
   return (
     <div className="todo-controls">
       <button className="btn-complete" onClick={completeActiveTodos}>
-        Complete all todos
+        Mark all todos
       </button>
       <button className="btn-remove" onClick={removeCompletedTodos}>
-        Remove completed todos
+        Remove marked todos
       </button>
     </div>
   );

@@ -10,8 +10,8 @@ type TodosState = {
   error: null;
   info: {
     total: number;
-    active: number;
-    done: number;
+    available: number;
+    marked: number;
     free: string;
   };
 };
@@ -47,10 +47,10 @@ const initialStateTodos = {
   todos: [],
   loading: false,
   error: null,
-  info: { total: 0, active: 0, done: 0, free: "0%" },
+  info: { total: 0, available: 0, marked: 0, free: "0%" },
 } as TodosState;
 
-export const useStoreTodos: StateCreator<
+export const sliceUseStoreTodos: StateCreator<
   TodosStoreState,
   [["zustand/devtools", never]],
   [],
@@ -65,11 +65,12 @@ export const useStoreTodos: StateCreator<
         actionSet((state: TodosState) => {
           const todos = get().todos;
           state.info.total = todos.length;
-          state.info.active = todos.filter((t) => !t.done).length;
-          state.info.done = state.info.total - state.info.active;
+          state.info.available = todos.filter((t) => !t.done).length;
+          state.info.marked = state.info.total - state.info.available;
           state.info.free =
             state.info.total > 0
-              ? Math.round((state.info.active / state.info.total) * 100) + "%"
+              ? Math.round((state.info.available / state.info.total) * 100) +
+                "%"
               : "0%";
         }, TodosActionTypes.UpdateInfo);
       },

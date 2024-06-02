@@ -1,6 +1,6 @@
 import { devtools } from "zustand/middleware";
-import { TodosStoreState, useStoreTodos } from "./todos";
-import { StoreExample, useStoreExample } from "./example";
+import { TodosStoreState, sliceUseStoreTodos } from "./sliceTodos";
+import { StoreExample, sliceUseStoreExample } from "./sliceExample";
 import { createWithEqualityFn } from "zustand/traditional";
 
 // Slices pattern
@@ -8,8 +8,8 @@ import { createWithEqualityFn } from "zustand/traditional";
 const useStore = createWithEqualityFn<TodosStoreState & StoreExample>()(
   devtools(
     (set, get, store) => ({
-      ...useStoreTodos(set, get, store),
-      ...useStoreExample(set, get, store),
+      ...sliceUseStoreTodos(set, get, store),
+      ...sliceUseStoreExample(set, get, store),
     }),
     { name: "Zustand App Store" }
   )

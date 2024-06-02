@@ -4,7 +4,7 @@ export interface StoreExample {
   data: string;
 }
 
-export const useStoreExample: StateCreator<
+export const sliceUseStoreExample: StateCreator<
   StoreExample,
   [["zustand/devtools", never]],
   [],

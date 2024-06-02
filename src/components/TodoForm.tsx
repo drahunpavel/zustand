@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
-import useStore from "../store";
+import { useStoreTodos } from "../store/useStoreTodos";
 
 const TodoForm = () => {
   const [text, setText] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const addTodo = useStore((state) => state.actions.addTodo);
+  const addTodo = useStoreTodos((state) => state.addTodo);
 
   useEffect(() => {
     setIsDisabled(!text.trim());
@@ -33,15 +33,7 @@ const TodoForm = () => {
     <form className="todo-form" onSubmit={onSubmit}>
       <label htmlFor="text">New todo text</label>
       <div>
-        <input
-          type="text"
-          required
-          value={text}
-          onChange={onChange}
-          style={
-            !isDisabled ? { borderBottom: "2px solid var(--success)" } : {}
-          }
-        />
+        <input type="text" required value={text} onChange={onChange} />
         <button className="btn-add" disabled={isDisabled}>
           Add todo
         </button>

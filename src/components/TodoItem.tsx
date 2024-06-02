@@ -1,14 +1,14 @@
 import React from "react";
 import { gsap } from "gsap";
-import useStore from "../store";
 //сравнения объектов
 import { shallow } from "zustand/shallow";
+import { useStoreTodos } from "../store/useStoreTodos";
 
 const TodoItem = ({ todo }) => {
-  const { updateTodo, removeTodo } = useStore(
-    ({ actions }) => ({
-      updateTodo: actions.updateTodo,
-      removeTodo: actions.removeTodo,
+  const { updateTodo, removeTodo } = useStoreTodos(
+    (state) => ({
+      updateTodo: state.updateTodo,
+      removeTodo: state.removeTodo,
     }),
     shallow
   );

@@ -1,19 +1,11 @@
 import React from "react";
-import { shallow } from "zustand/shallow";
-import useStore from "../store";
+import { useStoreTodos } from "../store/useStoreTodos";
 
 const TodoInfo = () => {
-  const { todos, info } = useStore(
-    ({ todos, info }) => ({
-      todos,
-      info,
-    }),
-    shallow
-  );
-
-  //   useEffect(() => {
-  //     updateInfo();
-  //   }, [todos]);
+  const { todos, info } = useStoreTodos(({ todos, info }) => ({
+    todos,
+    info,
+  }));
 
   console.log("--render: TodoInfo");
 
@@ -21,7 +13,7 @@ const TodoInfo = () => {
 
   return (
     <div className="todo-info">
-      {["Total", "Active", "Done", "Free"].map((k) => (
+      {["Total", "Available", "Marked", "Free"].map((k) => (
         <span key={k}>
           {k}: {info[k.toLowerCase()]}
         </span>
