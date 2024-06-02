@@ -1,16 +1,22 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
+export enum FilterValues {
+  All = "All",
+  Available = "Available",
+  Marked = "Marked",
+}
+
 type FilterStoreState = {
-  filter: string;
-  setFilter: (value: string) => void;
+  filter: FilterValues;
+  setFilter: (value: FilterValues) => void;
 };
 
 export const useStoreFilter = create<FilterStoreState>()(
   devtools(
     persist(
       (set) => ({
-        filter: "all",
+        filter: FilterValues.All,
         setFilter: (value) =>
           set({ filter: value }, false, "Filter: SetFilter"),
       }),

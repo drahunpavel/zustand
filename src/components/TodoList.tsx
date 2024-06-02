@@ -1,15 +1,15 @@
 import React, { useRef } from "react";
 import { TodoItem } from ".";
 import { useStoreTodos } from "../store/useStoreTodos";
-import { useStoreFilter } from "../store/useStoreFilter";
+import { FilterValues, useStoreFilter } from "../store/useStoreFilter";
 
 const TodoList = () => {
   const filter = useStoreFilter((state) => state.filter);
   const todos = useStoreTodos((state) => {
     switch (filter) {
-      case "available":
+      case FilterValues.Available:
         return state.todos.filter((todo) => !todo.done);
-      case "marked":
+      case FilterValues.Marked:
         return state.todos.filter((todo) => todo.done);
 
       default:

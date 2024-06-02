@@ -1,5 +1,5 @@
 import React from "react";
-import { useStoreFilter } from "../store/useStoreFilter";
+import { FilterValues, useStoreFilter } from "../store/useStoreFilter";
 
 const TodoFilter = () => {
   const { filter, setFilter } = useStoreFilter();
@@ -8,18 +8,21 @@ const TodoFilter = () => {
 
   return (
     <div>
-      <button disabled={filter === "all"} onClick={() => setFilter("all")}>
+      <button
+        disabled={filter === FilterValues.All}
+        onClick={() => setFilter(FilterValues.All)}
+      >
         All
       </button>
       <button
-        disabled={filter === "available"}
-        onClick={() => setFilter("available")}
+        disabled={filter === FilterValues.Available}
+        onClick={() => setFilter(FilterValues.Available)}
       >
         Available
       </button>
       <button
-        disabled={filter === "marked"}
-        onClick={() => setFilter("marked")}
+        disabled={filter === FilterValues.Marked}
+        onClick={() => setFilter(FilterValues.Marked)}
       >
         Marked
       </button>
