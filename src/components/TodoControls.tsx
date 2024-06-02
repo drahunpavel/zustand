@@ -3,6 +3,12 @@ import { useStoreTodos } from "../store/useStoreTodos";
 import { shallow } from "zustand/shallow";
 
 const TodoControls = () => {
+  // const completeActiveTodos = useStoreTodos(
+  //   (state) => state.completeActiveTodos
+  // );
+  // const removeCompletedTodos = useStoreTodos(
+  //   (state) => state.removeCompletedTodos
+  // );
   const { completeActiveTodos, removeCompletedTodos } = useStoreTodos(
     (state) => ({
       completeActiveTodos: state.completeActiveTodos,
