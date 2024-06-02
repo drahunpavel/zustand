@@ -19,3 +19,7 @@ export const useStoreFilter = create<FilterStoreState>()(
     { name: "FilterStore" }
   )
 );
+
+//* Reading/writing state outside of components
+//const filter = useStoreFilter.getState().filter;
+//useStoreFilter.setState({ filter: "all" });
