@@ -29,3 +29,8 @@ export const useStoreFilter = create<FilterStoreState>()(
 //* Reading/writing state outside of components
 //const filter = useStoreFilter.getState().filter;
 //useStoreFilter.setState({ filter: "all" });
+
+//* Event change subscription
+// const unsubscribe = useStoreFilter.subscribe((state) => {
+//   console.log(`Filter changed to: ${state.filter}`);
+// });
