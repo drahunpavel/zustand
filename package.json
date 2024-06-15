@@ -24,7 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server -w src/db.json -d 3000 -p 3001"
+    "server": "json-server -w src/db.json -d 4000 -p 3001"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +47,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "gsap": "^3.12.5",
-    "nanoid": "^5.0.7"
+    "nanoid": "^5.0.7",
+    "react-router-dom": "^6.23.1"
   }
 }
