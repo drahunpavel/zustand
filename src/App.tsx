@@ -8,9 +8,9 @@ import {
   TodoInfo,
   TodoList,
 } from "./components";
-import { useStoreTodos } from "./store/useStoreTodos";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SagaComponent from "./components/saga-component";
+import ClassComponent from "./components/class-component";
 
 // ассинхронный вызов получения списка за пределами компонента до рендеринга компонента
 // useStoreTodos.getState().fetchTodos();
@@ -42,6 +42,7 @@ function App() {
           }
         />
         <Route path="saga" element={<SagaComponent />} />
+        <Route path="class" element={<ClassComponent />} />
       </Routes>
     </BrowserRouter>
   );
