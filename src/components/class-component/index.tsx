@@ -11,27 +11,23 @@ const withZustand = <P extends ComponentProps>(
 ): React.ComponentType => {
   return class extends React.Component {
     state = {
-      todos: useStoreTodos.getState().todos,
-      loading: useStoreTodos.getState().loading,
-      error: useStoreTodos.getState().error,
+      todos: [],
+      loading: false,
+      error: null,
     };
 
     unsubscribe: () => void = () => {};
 
     componentDidMount() {
       this.unsubscribe = useStoreTodos.subscribe((state) => {
-        this.setState({
-          todos: state.todos,
-          loading: state.loading,
-          error: state.error,
-        });
+        this.setState(state);
       });
+
+      useStoreTodos.getState().fetchTodos();
     }
 
     componentWillUnmount() {
-      if (this.unsubscribe) {
-        this.unsubscribe();
-      }
+      this.unsubscribe();
     }
 
     render() {
@@ -41,7 +37,6 @@ const withZustand = <P extends ComponentProps>(
           todos={this.state.todos}
           loading={this.state.loading}
           error={this.state.error}
-          fetchTodos={useStoreTodos.getState().fetchTodos}
         />
       );
     }
@@ -49,15 +44,10 @@ const withZustand = <P extends ComponentProps>(
 };
 
 class ClassComponent extends React.Component<ComponentProps> {
-  componentDidMount() {
-    setTimeout(() => {
-      this.props.fetchTodos();
-    }, 1000);
-  }
-
   render() {
-    console.log("--props: ", this.props);
     const { todos, loading, error } = this.props;
+
+    console.log("render class component: ", todos, error, loading);
 
     return (
       <div>
