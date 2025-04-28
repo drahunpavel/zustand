@@ -1,4 +1,4 @@
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, devtools } from "zustand/middleware";
 import { Todo } from "../types";
 import { createWithEqualityFn } from "zustand/traditional";
 
